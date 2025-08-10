@@ -105,6 +105,10 @@ PY
 # ------------------------------------------------------------------
 FROM nvidia/cuda:12.8.0-runtime-ubuntu24.04
 
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends python3 python3-venv && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Use the same user and UID/GID as the builder stage
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
