@@ -8,19 +8,20 @@ services:
         USER_UID: ${UID:-1000}
         USER_GID: ${GID:-1000}
     image: comfyui-triton-sageatt:cu128
-
+    network_mode: "bridge"
     ports:
       - "8188:8188"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
       - ${FOLDER}/models:/home/ubuntu/ComfyUI/models:rw
-      - ${FOLDER}/custom_nodes:/home/ubuntu/ComfyUI/custom_nodes:rw
-      - ${FOLDER}/user:/home/ubuntu/ComfyUI/user:rw
       - ${FOLDER}/output:/home/ubuntu/ComfyUI/output:rw
       - ${FOLDER}/input:/home/ubuntu/ComfyUI/input:rw
+      - ${FOLDER}/workflows:/home/ubuntu/workflows:rw
     environment:
       - CLI_ARGS=
+      - LD_LIBRARY_PATH=/usr/lib:/usr/lib32
+      - NVIDIA_DRIVER_CAPABILITIES=all
     deploy:
       resources:
         reservations:
