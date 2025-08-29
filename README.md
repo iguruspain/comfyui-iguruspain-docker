@@ -35,7 +35,7 @@ export UID=$(id -u)
 export GID=$(id -g)
 export FOLDER=~/Docker/comfyui
 docker pull ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
-docker run --rm -it -p 8188:8188 ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
+docker run --rm -it --gpus all -p 8188:8188 ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 ```
 
 ## 2. Access the Interface
