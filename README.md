@@ -21,12 +21,18 @@ The setup with `docker-compose.yml` simplifies service deployment. You can custo
 ### 5. Custom Entrypoint
 The `entrypoint.sh` script manages the initial configuration of the container, such as creating symbolic links for workflows, activating the virtual environment, and launching the ComfyUI server.
 
+# Observations:
+1. `nano` editor is included
+2. `.bashrc` includes auto load virtual environment (`.venv`)
+3. SageAttention v2.2.0 from [Hugging Face Kijai/PrecompiledWheels](https://huggingface.co/Kijai/PrecompiledWheels/tree/main) (`sageattention-2.2.0-cp312-cp312-linux_x86_64.whl`)
+4. Persistent volumes in your own local `$HOME` folder without root permissions
+
 # Installation
 
 ## 0. Preliminary Step: Create Folder Structure with create_folders.sh
 ```bash
 chmod +x create_folders.sh
-./create_folders.sh $HOME/Docker/comfyui
+./create_folders.sh $HOME/Docker/comfyui #example folder
 ```
 
 ## 1. Direct deployment (choose mode)
@@ -36,7 +42,7 @@ chmod +x create_folders.sh
 ```bash
 export UID=$(id -u)
 export GID=$(id -g)
-export FOLDER=$HOME/Docker/comfyui
+export FOLDER=$HOME/Docker/comfyui #example folder
 ```
 
 - Interactive mode with automatic removal (Use this for temporary testing or debugging, container will be removed when it exits)
