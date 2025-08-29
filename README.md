@@ -1,6 +1,6 @@
 # ComfyUI with PyTorch and SageAttention
 
-This project provides an optimized Docker configuration for running ComfyUI with GPU acceleration, utilizing PyTorch and the SageAttention plugin. The container is designed to be efficient, lightweight, and easy to use, leveraging best practices from the community.
+This project provides an optimized Docker configuration for running ComfyUI with GPU acceleration on Ubuntu 24.04, utilizing PyTorch and the SageAttention plugin. The container is designed to be efficient, lightweight, and easy to use, leveraging best practices from the community.
 
 ## Key Features
 
