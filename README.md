@@ -21,7 +21,7 @@ The setup with `docker-compose.yml` simplifies service deployment. You can custo
 ### 5. Custom Entrypoint
 The `entrypoint.sh` script manages the initial configuration of the container, such as creating symbolic links for workflows, activating the virtual environment, and launching the ComfyUI server.
 
-# Observations:
+### Notes:
 1. `nano` editor is included
 2. `.bashrc` includes auto load virtual environment (`.venv`)
 3. SageAttention v2.2.0 from [Hugging Face Kijai/PrecompiledWheels](https://huggingface.co/Kijai/PrecompiledWheels/tree/main) (`sageattention-2.2.0-cp312-cp312-linux_x86_64.whl`)
