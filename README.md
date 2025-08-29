@@ -71,6 +71,8 @@ docker run -d \
   -v $FOLDER/workflows:/home/ubuntu/workflows:rw \
   ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 ```
+### Note:
+Workflows symbolic link will be generated when ComfyUI-Manager generates profile data then reboot the container.
 
 ## 2. Access the Interface
 Open your browser at [http://localhost:8188](http://localhost:8188)
