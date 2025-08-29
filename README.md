@@ -29,13 +29,33 @@ chmod +x create_folders.sh
 ./create_folders.sh $HOME/Docker/comfyui
 ```
 
-## 1. Direct Deployment with GitHub Container Registry
+## 1. Direct deployment (choose mode)
+
+- Export variables:
+
 ```bash
 export UID=$(id -u)
 export GID=$(id -g)
 export FOLDER=$HOME/Docker/comfyui
-docker pull ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
+```
+
+- Interactive mode with automatic removal (Use this for temporary testing or debugging, container will be removed when it exits)
+
+```bash
 docker run --rm -it \
+  --name comfyui-iguruspain-docker \
+  --gpus all \
+  -p 8188:8188 \
+  -v $FOLDER/models:/home/ubuntu/ComfyUI/models:rw \
+  -v $FOLDER/output:/home/ubuntu/ComfyUI/output:rw \
+  -v $FOLDER/input:/home/ubuntu/ComfyUI/input:rw \
+  -v $FOLDER/workflows:/home/ubuntu/workflows:rw \
+  ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
+```
+- Detached mode (Use this for running ComfyUI as a background service, container stays running after you close the terminal)
+
+```bash
+docker run -d \
   --name comfyui-iguruspain-docker \
   --gpus all \
   -p 8188:8188 \
