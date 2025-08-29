@@ -1,5 +1,8 @@
 # ComfyUI with PyTorch and SageAttention
 
+[![Docker Pulls](https://img.shields.io/docker/pulls/iguruspain/comfyui-iguruspain-docker)](https://ghcr.io/iguruspain/comfyui-iguruspain-docker)
+[![GitHub Workflow](https://img.shields.io/github/actions/workflow/status/tuusuario/tu-repo/docker.yml)](https://github.com/tuusuario/tu-repo/actions/workflows/docker.yml)
+
 This project provides an optimized Docker configuration for running ComfyUI with GPU acceleration on Ubuntu 24.04, utilizing PyTorch and the SageAttention plugin. The container is designed to be efficient, lightweight, and easy to use, leveraging best practices from the community.
 
 ## Key Features
@@ -20,24 +23,32 @@ The `docker-compose.yml` configuration simplifies service deployment. You can ea
 The `entrypoint.sh` script manages the initial container setup, such as creating symbolic links for workflows, and is responsible for activating the virtual environment and launching the ComfyUI server. This automates the startup process and ensures the container is always ready for use.
 
 # Install
-## 0. Pre-Intall step: Create folder structure with create_folder.sh
+## 0. Pre-Install step: Create folder structure with create_folder.sh
 ```bash
 chmod +x create_folders.sh
-./create_folders.sh ~/Docket/comfyui
+./create_folders.sh ~/Docker/comfyui
 ```
-## 1a. Deploy directly with:
+## 1. Deploy directly with:
 ```bash
 export UID=$(id -u)
 export GID=$(id -g)
 export FOLDER=~/Docker/comfyui
-aquiloquesea
+docker pull ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
+docker run --rm -it -p 8188:8188 ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 ```
+## 2. Access the Interface
+Open your browser at [http://localhost:8188](http://localhost:8188)
 
-## 1b. Compose build and up (if you want to build the image)
+# Additional
+## For compose build and up (if you want to build the image locally)
 ```bash
 export UID=$(id -u)
 export GID=$(id -g)
 export FOLDER=~/Docker/comfyui
+
+# Build image locally (no cache)
 docker compose build --no-cache
+
+# Start container (recreates container if necessary)
 docker compose up --force-recreate
 ```
