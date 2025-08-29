@@ -1,7 +1,7 @@
 # ComfyUI with PyTorch and SageAttention
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/iguruspain/comfyui-iguruspain-docker)](https://ghcr.io/iguruspain/comfyui-iguruspain-docker)
-[![GitHub Workflow](https://img.shields.io/github/actions/workflow/status/iguruspain/comfyui-iguruspain-docker/docker.yml)](https://github.com/tuusuario/iguruspain/actions/workflows/docker.yml)
+[![GitHub Workflow](https://img.shields.io/github/actions/workflow/status/iguruspain/comfyui-iguruspain-docker/docker.yml)](https://github.com/iguruspain/comfyui-iguruspain-docker/actions/workflows/docker.yml)
 
 This project provides an optimized Docker configuration for running ComfyUI with GPU acceleration on Ubuntu 24.04, utilizing PyTorch and the SageAttention plugin. The container is designed to be efficient, lightweight, and easy to use, leveraging best practices from the community.
 
