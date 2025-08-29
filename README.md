@@ -29,7 +29,7 @@ The `entrypoint.sh` script manages the initial configuration of the container, s
 
 # Installation
 
-## 0. Preliminary Step: Create Folder Structure with create_folders.sh
+## 0. Create Folder Structure with create_folders.sh in your host machine
 ```bash
 chmod +x create_folders.sh
 ./create_folders.sh $HOME/Docker/comfyui #example folder
