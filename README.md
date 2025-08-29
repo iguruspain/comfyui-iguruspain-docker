@@ -39,10 +39,10 @@ docker run --rm -it \
   --name comfyui-iguruspain-docker \
   --gpus all \
   -p 8188:8188 \
-  -v ${FOLDER}/models:/home/ubuntu/ComfyUI/models:rw \
-  -v ${FOLDER}/output:/home/ubuntu/ComfyUI/output:rw \
-  -v ${FOLDER}/input:/home/ubuntu/ComfyUI/input:rw \
-  -v ${FOLDER}/workflows:/home/ubuntu/workflows:rw \
+  -v $FOLDER/models:/home/ubuntu/ComfyUI/models:rw \
+  -v $FOLDER/output:/home/ubuntu/ComfyUI/output:rw \
+  -v $FOLDER/input:/home/ubuntu/ComfyUI/input:rw \
+  -v $FOLDER/workflows:/home/ubuntu/workflows:rw \
   ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 ```
 
