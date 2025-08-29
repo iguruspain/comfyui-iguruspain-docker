@@ -35,23 +35,16 @@ export UID=$(id -u)
 export GID=$(id -g)
 export FOLDER=~/Docker/comfyui
 docker pull ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
-docker run --rm -it --gpus all -p 8188:8188 ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
+docker run --rm -it \
+  --name comfyui-iguruspain-docker \
+  --gpus all \
+  -p 8188:8188 \
+  -v ${FOLDER}/models:/home/ubuntu/ComfyUI/models:rw \
+  -v ${FOLDER}/output:/home/ubuntu/ComfyUI/output:rw \
+  -v ${FOLDER}/input:/home/ubuntu/ComfyUI/input:rw \
+  -v ${FOLDER}/workflows:/home/ubuntu/workflows:rw \
+  ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 ```
 
 ## 2. Access the Interface
 Open your browser at [http://localhost:8188](http://localhost:8188)
-
-# Additional
-
-## To Build and Launch with Docker Compose (if you want to build the image locally)
-```bash
-export UID=$(id -u)
-export GID=$(id -g)
-export FOLDER=~/Docker/comfyui
-
-# Build the image locally (without cache)
-docker compose build --no-cache
-
-# Start the container (recreate if necessary)
-docker compose up --force-recreate
-```
