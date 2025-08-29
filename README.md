@@ -18,3 +18,18 @@ The `docker-compose.yml` configuration simplifies service deployment. You can ea
 
 ### 5. Custom Entrypoint
 The `entrypoint.sh` script manages the initial container setup, such as creating symbolic links for workflows, and is responsible for activating the virtual environment and launching the ComfyUI server. This automates the startup process and ensures the container is always ready for use.
+
+# Install
+## 1. Create folder structure with create_folder.sh
+```bash
+chmod +x create_folders.sh
+./create_folders.sh ~/Docket/comfyui
+```
+## 2. Compose build and up
+```bash
+export UID=$(id -u)
+export GID=$(id -g)
+export FOLDER=~/Docker/comfyui
+docker compose build --no-cache
+docker compose up --force-recreate
+```
