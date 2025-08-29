@@ -26,14 +26,14 @@ The `entrypoint.sh` script manages the initial configuration of the container, s
 ## 0. Preliminary Step: Create Folder Structure with create_folders.sh
 ```bash
 chmod +x create_folders.sh
-./create_folders.sh ~/Docker/comfyui
+./create_folders.sh $HOME/Docker/comfyui
 ```
 
 ## 1. Direct Deployment with GitHub Container Registry
 ```bash
 export UID=$(id -u)
 export GID=$(id -g)
-export FOLDER=~/Docker/comfyui
+export FOLDER=$HOME/Docker/comfyui
 docker pull ghcr.io/iguruspain/comfyui-iguruspain-docker:latest
 docker run --rm -it \
   --name comfyui-iguruspain-docker \
