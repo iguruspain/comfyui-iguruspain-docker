@@ -1,16 +1,17 @@
 # ------------------------------------------------------------------
-# Stage 1: Builder
-# All heavy installations and build processes happen here.
+# 1. Base: Ubuntu 24.04 + CUDA 12.8
 # ------------------------------------------------------------------
-FROM nvidia/cuda:12.8.0-base-ubuntu24.04 AS builder
+FROM nvidia/cuda:12.8.0-base-ubuntu24.04
 
-# Environment variables
+# ------------------------------------------------------------------
+# 2. Env variables
+# ------------------------------------------------------------------
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
 
-# Installation of system dependencies
+# ------------------------------------------------------------------
+# 3. Installation
+# ------------------------------------------------------------------
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         ca-certificates \
@@ -34,7 +35,9 @@ RUN apt-get update && \
         libgl1-mesa-dev libx11-dev \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create user with specified UID/GID
+# ------------------------------------------------------------------
+# 4. Create user
+# ------------------------------------------------------------------
 ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -46,46 +49,48 @@ RUN if ! id -u ${USERNAME} >/dev/null 2>&1; then \
     echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} && \
     chmod 0440 /etc/sudoers.d/${USERNAME}
 
-# Switch to the new user and set the working directory
 USER ${USERNAME}
 WORKDIR /home/${USERNAME}
 
-# Copy and prepare entrypoint script and additional requirements
+# ------------------------------------------------------------------
+# 5. ComfyUI + PyTorch + VENV
+# ------------------------------------------------------------------
 COPY --chown=${USERNAME}:${USERNAME} entrypoint.sh .
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x /home/${USERNAME}/entrypoint.sh
 
 COPY --chown=${USERNAME}:${USERNAME} additional_requirements.txt .
 
-# Clone ComfyUI and ComfyUI-Manager
+# Clone ComfyUI and Manager
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git /home/${USERNAME}/ComfyUI && \
     git clone https://github.com/ltdrdata/ComfyUI-Manager /home/${USERNAME}/ComfyUI/custom_nodes/comfyui-manager
 
-# Set ComfyUI as the new working directory for the next steps
 WORKDIR /home/${USERNAME}/ComfyUI
 
-# Create Python venv and install dependencies
+# Create venv and update pip.
 RUN python3 -m venv .venv && \
     .venv/bin/pip install --upgrade pip
 
-# PyTorch installation with --no-cache-dir optimization
-RUN .venv/bin/pip install --no-cache-dir torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128
+# PyTorch installation
+RUN .venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128
 
-# Install other requirements
-RUN .venv/bin/pip install --no-cache-dir \
+# Make sure the deps fit the needs for ComfyUI & Manager
+RUN .venv/bin/pip install \
         -r https://github.com/comfyanonymous/ComfyUI/raw/refs/heads/master/requirements.txt \
         -r https://github.com/Comfy-Org/ComfyUI-Manager/raw/refs/heads/main/requirements.txt \
         -r /home/${USERNAME}/additional_requirements.txt \
     && .venv/bin/pip list
 
-# SageAttention 2 installation via Python script
+#Sage Attention 2 installation
 RUN .venv/bin/python - <<'PY'
 import sys
 import huggingface_hub
 import subprocess
 import os
 
+# Wheel
 wheel_name = "sageattention-2.2.0-cp312-cp312-linux_x86_64.whl"
 
+# Download wheel
 wheel_path = huggingface_hub.hf_hub_download(
     repo_id="Kijai/PrecompiledWheels",
     filename=wheel_name,
@@ -93,41 +98,22 @@ wheel_path = huggingface_hub.hf_hub_download(
     revision="main",
 )
 
+# Install wheel with pip (Python venv)
 subprocess.check_call([sys.executable, "-m", "pip", "install", wheel_path])
 
+# Remove wheel
 os.remove(wheel_path)
 print(f"✓ SageAttention instalado desde {wheel_path}")
 PY
 
 # ------------------------------------------------------------------
-# Stage 2: Production
-# This stage is a minimal image for running the application.
+# 6. Expose ports and ENTRYPOINT
 # ------------------------------------------------------------------
-FROM nvidia/cuda:12.8.0-runtime-ubuntu24.04
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends python3 python3-venv && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Use the same user and UID/GID as the builder stage
-ARG USERNAME=ubuntu
-ARG USER_UID=1000
-ARG USER_GID=1000
-
-# Copy only the necessary files from the builder stage
-# This includes the user's home directory with venv and ComfyUI
-COPY --from=builder /home/${USERNAME} /home/${USERNAME}
-COPY --from=builder /etc/sudoers.d/${USERNAME} /etc/sudoers.d/${USERNAME}
-
-# Set permissions for the copied files
-RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}
-
-# Switch to the application user
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}/ComfyUI
-
-# Expose the port
 EXPOSE 8188
 
-# Use the new entrypoint script to run the application
-ENTRYPOINT ["/home/ubuntu/entrypoint.sh"]
+# Final Workdir
+WORKDIR /home/${USERNAME}/ComfyUI
+ENV CLI_ARGS=""
+
+#ENTRYPOINT ["/bin/bash", "-c", ". /home/${USERNAME}/ComfyUI/.venv/bin/activate && exec python3 /home/${USERNAME}/ComfyUI/main.py --listen --port 8188 ${CLI_ARGS}"]
+ENTRYPOINT ["/bin/bash", "-c", ". /home/ubuntu/entrypoint.sh"]
