@@ -17,6 +17,31 @@ set -euo pipefail
 #
 #fi ;
 
+# Preinstall some nodes
+if [ ! -f "/home/ubuntu/.preinsnodes" ] ; then
+    if [ -d "/home/ubuntu/ComfyUI/custom_nodes/comfyui-manager" ]; then
+        echo "#############################################"
+        echo "[INFO] Preinstalling basic nodes..."
+        echo "#############################################"
+        echo ""
+        echo ""
+        current=`pwd`
+        . /home/ubuntu/ComfyUI/.venv/bin/activate
+        cd /home/ubuntu/ComfyUI/custom_nodes/comfyui-manager
+        python3 cm-cli.py install "ComfyUI-Crystools"
+        python3 cm-cli.py install "ComfyUI-Custom-Scripts"
+        python3 cm-cli.py install "rgthree-comfy"
+        python3 cm-cli.py install "ComfyUI-KJNodes"
+        python3 cm-cli.py install "ComfyUI-Easy-Use"
+        python3 cm-cli.py install "ComfyUI_essentials"
+        python3 cm-cli.py install "comfyui-tooling-nodes"
+        python3 cm-cli.py install "ComfyUI-GGUF"
+        python3 cm-cli.py install "ComfyUI-nunchaku"
+        cd $current
+        touch /home/ubuntu/.preinsnodes
+    fi
+fi
+
 # Symbolic link
 if [ ! -f "/home/ubuntu/.link-wf" ] ; then
     if [ -d "/home/ubuntu/ComfyUI/user/default/workflows" ]; then
