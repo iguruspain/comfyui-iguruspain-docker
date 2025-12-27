@@ -1,4 +1,4 @@
-name: Docker old
+name: Docker
 
 on:
   workflow_dispatch:
