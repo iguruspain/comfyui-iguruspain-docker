@@ -49,7 +49,7 @@ echo "#############################################"
 # Ensure .bashrc ends with source for venv
 BASHRC="/home/ubuntu/.bashrc"
 LINE="source ~/ComfyUI/.venv/bin/activate"
-COMFYUI_PATH="/home/ubuntu/ComfyUI"
+export COMFYUI_PATH="/home/ubuntu/ComfyUI"
 
 if ! tail -n 1 "$BASHRC" | grep -Fxq "$LINE"; then
     echo "$LINE" >> "$BASHRC"
