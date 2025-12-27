@@ -1,3 +1,9 @@
 rgthree-comfy
 ComfyUI-Crystools
 ComfyUI-nunchaku
+ComfyUI-Custom-Scripts
+ComfyUI-Easy-Use
+ComfyUI-KJNodes
+ComfyUI-GGUF
+ComfyUI_UltimateSDUpscale
+comfyui-tooling-nodes
