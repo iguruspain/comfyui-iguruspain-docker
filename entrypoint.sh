@@ -30,7 +30,7 @@ if [ ! -f "/home/ubuntu/.custom-nodes-installed" ] ; then
     . /home/ubuntu/ComfyUI/.venv/bin/activate
     #install nodes from custom_nodes.txt using ComfyUI-Manager cli
     #https://github.com/Comfy-Org/ComfyUI-Manager/blob/main/docs/en/cm-cli.md
-    python3 /home/ubuntu/ComfyUI/custom_nodes/cm-cli.py install -f /home/ubuntu/custom_nodes.txt -
+    python3 /home/ubuntu/ComfyUI/custom_nodes/comfy-manager/cm-cli.py install -f /home/ubuntu/custom_nodes.txt -
     touch /home/ubuntu/.custom-nodes-installed
 fi
 
