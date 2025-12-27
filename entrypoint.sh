@@ -20,7 +20,7 @@ if [ ! -f "/home/ubuntu/.link-wf" ] ; then
     fi
 fi
 
-Install some custom nodes using ComfyUI-Manager CLI if not already installed
+# Install some custom nodes using ComfyUI-Manager CLI if not already installed
 if [ ! -f "/home/ubuntu/.custom-nodes-installed" ] ; then
     echo "#############################################"
     echo "[INFO] Installing custom nodes..."
