@@ -1,2 +1,3 @@
 rgthree-comfy
 ComfyUI-Crystools
+ComfyUI-nunchaku
