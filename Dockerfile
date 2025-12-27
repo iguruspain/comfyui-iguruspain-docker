@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------
-# 1. Base: Ubuntu 24.04 + CUDA 12.8
+# 1. Base: Ubuntu 24.04 + CUDA 13.0.1
 # ------------------------------------------------------------------
-FROM nvidia/cuda:12.8.0-base-ubuntu24.04
+FROM nvidia/cuda:13.0.1-base-ubuntu24.04
 
 # ------------------------------------------------------------------
 # 2. Env variables
@@ -41,7 +41,7 @@ WORKDIR /home/${USERNAME}
 # ------------------------------------------------------------------
 # 5. ComfyUI + PyTorch + VENV
 # ------------------------------------------------------------------
-COPY --chown=${USERNAME}:${USERNAME} entrypoint.sh additional_requirements.txt ./
+COPY --chown=${USERNAME}:${USERNAME} entrypoint.sh additional_requirements.txt custom_nodes.txt ./
 RUN chmod +x entrypoint.sh
 
 # Clone repos (una sola capa)

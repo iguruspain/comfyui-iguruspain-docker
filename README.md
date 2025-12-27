@@ -6,8 +6,8 @@ This project provides an optimized Docker setup to run ComfyUI with GPU accelera
 
 ## Main Features
 
-### 1. Optimized GPU Performance (CUDA 12.8)
-The container is configured to leverage the latest version of PyTorch with CUDA 12.8. This ensures maximum performance and compatibility with modern NVIDIA GPUs, enabling ComfyUI and plugins to run efficiently.
+### 1. Optimized GPU Performance (CUDA 13.0.1)
+The container is configured to leverage the latest version of PyTorch with CUDA 13.0.1. This ensures maximum performance and compatibility with modern NVIDIA GPUs, enabling ComfyUI and plugins to run efficiently.
 
 ### 2. Clean and Isolated Environment
 All Python dependencies are installed in a virtual environment (`.venv`), ensuring ComfyUI runs in a clean and isolated environment, avoiding conflicts with other Python applications on your system.

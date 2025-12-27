@@ -1,22 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-#if [ ! -f "/home/ubuntu/.download-complete" ] ; then
-#
-#echo "########################################"
-#echo "[INFO] Downloading ComfyUI & Manager..."
-#echo "########################################"
-#
-#set +e
-#cd /home/ubuntu
-#git clone https://github.com/comfyanonymous/ComfyUI.git
-#cd /home/ubuntu/ComfyUI
-#git clone https://github.com/ltdrdata/ComfyUI-Manager comfyui-manager
-#set -e
-#touch /home/ubuntu/.download-complete
-#
-#fi ;
-
 # Symbolic link
 if [ ! -f "/home/ubuntu/.link-wf" ] ; then
     if [ -d "/home/ubuntu/ComfyUI/user/default/workflows" ]; then
@@ -36,6 +20,23 @@ if [ ! -f "/home/ubuntu/.link-wf" ] ; then
     fi
 fi
 
+# Install some custom nodes using ComfyUI-Manager CLI if not already installed
+if [ ! -f "/home/ubuntu/.custom-nodes-installed" ] ; then
+    echo "#############################################"
+    echo "[INFO] Installing custom nodes..."
+    echo "#############################################"
+    echo ""
+    echo ""
+    . /home/ubuntu/ComfyUI/.venv/bin/activate
+    #install nodes from custom_nodes.txt using ComfyUI-Manager cli
+    #https://github.com/Comfy-Org/ComfyUI-Manager/blob/main/docs/en/cm-cli.md
+    python3 /home/ubuntu/ComfyUI/custom_nodes/cm-cli.py install -f /home/ubuntu/custom_nodes.txt -
+    touch /home/ubuntu/.custom-nodes-installed
+fi
+
+echo "#############################################"
+echo "[INFO] Starting ComfyUI..."
+echo "#############################################"
 # Ensure .bashrc ends with source for venv
 BASHRC="/home/ubuntu/.bashrc"
 LINE="source ~/ComfyUI/.venv/bin/activate"
