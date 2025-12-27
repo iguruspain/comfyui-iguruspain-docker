@@ -62,15 +62,22 @@ RUN python3 -m venv .venv && \
     .venv/bin/pip cache purge
 
 # Sage Attention 2 (manteniendo limpio)
-RUN .venv/bin/python - <<'PY'
-import sys, subprocess, os
-from huggingface_hub import hf_hub_download
+# RUN .venv/bin/python - <<'PY'
+# import sys, subprocess, os
+# from huggingface_hub import hf_hub_download
 
-wheel_name = "sageattention-2.2.0-cp312-cp312-linux_x86_64.whl"
-wheel_path = hf_hub_download(repo_id="Kijai/PrecompiledWheels", filename=wheel_name, force_download=True)
-subprocess.check_call([sys.executable, "-m", "pip", "install", wheel_path])
-os.remove(wheel_path)
-PY
+# wheel_name = "sageattention-2.2.0-cp312-cp312-linux_x86_64.whl"
+# wheel_path = hf_hub_download(repo_id="Kijai/PrecompiledWheels", filename=wheel_name, force_download=True)
+# subprocess.check_call([sys.executable, "-m", "pip", "install", wheel_path])
+# os.remove(wheel_path)
+# PY
+
+# Sage Attention 2 (instalación directa, usando el venv y nvcc disponible en la imagen devel)
+RUN git clone https://github.com/thu-ml/SageAttention.git && \
+    cd SageAttention && \
+    EXT_PARALLEL=4 NVCC_APPEND_FLAGS="--threads 8" MAX_JOBS=32 \
+      /home/ubuntu/ComfyUI/.venv/bin/python3 setup.py install && \
+    cd .. && rm -rf SageAttention
 
 # ------------------------------------------------------------------
 # 6. Expose ports and ENTRYPOINT
