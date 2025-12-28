@@ -51,6 +51,7 @@ export FOLDER=$HOME/Docker/comfyui #example folder
 docker run --rm -it \
   --name comfyui-iguruspain-docker \
   --gpus all \
+  --add-host=host.docker.internal:host-gateway \
   -p 8188:8188 \
   -v $FOLDER/models:/home/ubuntu/ComfyUI/models:rw \
   -v $FOLDER/output:/home/ubuntu/ComfyUI/output:rw \
@@ -64,6 +65,7 @@ docker run --rm -it \
 docker run -d \
   --name comfyui-iguruspain-docker \
   --gpus all \
+  --add-host=host.docker.internal:host-gateway \
   -p 8188:8188 \
   -v $FOLDER/models:/home/ubuntu/ComfyUI/models:rw \
   -v $FOLDER/output:/home/ubuntu/ComfyUI/output:rw \
