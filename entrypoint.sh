@@ -28,19 +28,20 @@ if [ ! -f "/home/ubuntu/.custom-nodes-installed" ] ; then
     echo ""
     echo ""
     . /home/ubuntu/ComfyUI/.venv/bin/activate
+    
     #install nodes from custom_nodes.txt using ComfyUI-Manager cli
     #https://github.com/Comfy-Org/ComfyUI-Manager/blob/main/docs/en/cm-cli.md
     export COMFYUI_PATH="/home/ubuntu/ComfyUI"
     python3 /home/ubuntu/ComfyUI/custom_nodes/comfyui-manager/cm-cli.py install $(sed '/^\s*$/d' /home/ubuntu/custom_nodes.txt)
     touch /home/ubuntu/.custom-nodes-installed
     python3 /home/ubuntu/ComfyUI/custom_nodes/comfyui-manager/cm-cli.py show installed | grep -Fq "ComfyUI-nunchaku" && echo true || echo false
-    if [ $? -eq 0 ]; then
-        echo "#############################################"
-        echo "[INFO] Nunchaku installed, downloading nunchaku_versions.json..."
-        echo "#############################################"
-        curl -fsSL -o /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-nunchaku/nunchaku_versions.json "https://nunchaku.tech/cdn/nunchaku_versions.json"
-        echo "[INFO] nunchaku_versions.json downloaded."
-    fi
+    # if [ $? -eq 0 ]; then
+    #     echo "#############################################"
+    #     echo "[INFO] Nunchaku installed, downloading nunchaku_versions.json..."
+    #     echo "#############################################"
+    #     curl -fsSL -o /home/ubuntu/ComfyUI/custom_nodes/ComfyUI-nunchaku/nunchaku_versions.json "https://nunchaku.tech/cdn/nunchaku_versions.json"
+    #     echo "[INFO] nunchaku_versions.json downloaded."
+    # fi
 fi
 
 echo "#############################################"

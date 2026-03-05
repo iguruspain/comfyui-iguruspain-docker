@@ -53,7 +53,8 @@ WORKDIR /home/${USERNAME}/ComfyUI
 # Create venv, upgrade pip, instalar deps en una sola capa
 RUN python3 -m venv .venv && \
     .venv/bin/pip install --upgrade pip && \
-    .venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128 && \
+    # .venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu128 && \
+    .venv/bin/pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu130 && \
     .venv/bin/pip install \
         -r https://github.com/comfyanonymous/ComfyUI/raw/refs/heads/master/requirements.txt \
         -r https://github.com/Comfy-Org/ComfyUI-Manager/raw/refs/heads/main/requirements.txt \
